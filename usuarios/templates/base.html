@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <title>Mi Aplicación</title>
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg">
+        <!-- Logo en el lado izquierdo -->
+        <a class="navbar-brand ms-3" 
+           href="{% if rol_usuario == 'Residente' %}{% url 'residente_dashboard' %}
+                  {% elif rol_usuario == 'Portero' %}{% url 'portero_dashboard' %}
+                  {% elif rol_usuario == 'Administracion' %}{% url 'administrador_dashboard' %}
+                  {% endif %}">
+            <img src="{% static 'img/logoblanco.png' %}" alt="Logo">
+        </a>
+
+        <div class="container-fluid">
+            <!-- Botones de navegación a la derecha -->
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+                <li class="nav-item me-3">
+                    {% if rol_usuario == "Residente" %}
+                        <a class="nav-link" href="{% url 'residente_dashboard' %}">
+                            <img src="{% static 'img/icon_inicio.png' %}" alt="Inicio Icono"> Inicio
+                        </a>
+                    {% elif rol_usuario == "Portero" %}
+                        <a class="nav-link" href="{% url 'portero_dashboard' %}">
+                            <img src="{% static 'img/icon_inicio.png' %}" alt="Inicio Icono"> Inicio
+                        </a>
+                    {% elif rol_usuario == "Administracion" %}
+                        <a class="nav-link" href="{% url 'administrador_dashboard' %}">
+                            <img src="{% static 'img/icon_inicio.png' %}" alt="Inicio Icono"> Inicio
+                        </a>
+                    {% endif %}
+                </li>
+                
+                <li class="nav-item me-3 position-relative">
+                    {% if rol_usuario == "Residente" %}
+                        <a class="nav-link" href="{% url 'pendientes_residente' %}">
+                            <img src="{% static 'img/icon_pendientes.png' %}" alt="Pendientes Icono"> Pendientes
+                            {% if tiene_pendientes %}
+                                <span class="notification-indicator"></span>
+                            {% endif %}
+                        </a>
+                    {% elif rol_usuario == "Portero" %}
+                        <a class="nav-link" href="{% url 'pendientes_portero' %}">
+                            <img src="{% static 'img/icon_pendientes.png' %}" alt="Pendientes Icono"> Pendientes
+                            {% if tiene_pendientes %}
+                                <span class="notification-indicator"></span>
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                </li>
+                
+                <li class="nav-item me-3">
+                    {% if rol_usuario == "Residente" %}
+                        <a class="nav-link" href="{% url 'historial_residente' %}">
+                            <img src="{% static 'img/icon_historial.png' %}" alt="Historial Icono"> Historial
+                        </a>
+                    {% elif rol_usuario == "Portero" %}
+                        <a class="nav-link" href="{% url 'historial_portero' %}">
+                            <img src="{% static 'img/icon_historial.png' %}" alt="Historial Icono"> Historial
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+
+            <!-- Menú de perfil -->
+            <div class="dropdown ms-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if request.user.foto_perfil %}
+                        <img src="{{ request.user.foto_perfil.url }}" alt="Foto de perfil" class="rounded-circle">
+                    {% else %}
+                        Perfil
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{% url 'perfil_usuario' %}">Mi Cuenta</a></li>
+                    <li>                    
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

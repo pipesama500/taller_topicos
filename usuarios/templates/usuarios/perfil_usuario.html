@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Mi Perfil</h1>
+
+    <div class="card mt-4">
+        <div class="card-body text-center">
+            <!-- Mostrar o cargar la foto de perfil -->
+            {% if usuario.foto_perfil %}
+                <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            {% else %}
+                <img src="{% static 'img/default_profile.png' %}" alt="Sin foto de perfil" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            {% endif %}
+
+            <!-- Botón para cargar nueva foto de perfil -->
+            <button id="uploadBtn" class="btn btn-primary mt-3">Cargar foto</button>
+            <form id="uploadForm" method="post" enctype="multipart/form-data" style="display: none;">
+                {% csrf_token %}
+                <input type="file" id="fileInput" name="foto_perfil" accept="image/*" onchange="document.getElementById('uploadForm').submit();">
+            </form>
+
+            <!-- Información del perfil -->
+            <h3 class="mt-4">{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+            <p><strong>Correo:</strong> {{ usuario.email }}</p>
+            <p><strong>Rol:</strong> {{ usuario.id_rol.nombre }}</p>
+            {% if usuario.id_apartamento %}
+                <p><strong>Apartamento:</strong> {{ usuario.id_apartamento }}</p>
+            {% else %}
+                <p><strong>Apartamento:</strong> No asociado</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("uploadBtn").onclick = function() {
+        document.getElementById("fileInput").click();
+    };
+</script>
+{% endblock %}

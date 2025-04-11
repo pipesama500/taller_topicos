@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Panel de Administración</h1>
+    <hr>
+
+    <!-- Sección de acciones rápidas -->
+    <div class="row text-center">
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-custom">
+                <div class="card-body">
+                    <h5 class="card-title">Crear Anuncio</h5>
+                    <p class="card-text">Publica un nuevo anuncio para toda la comunidad.</p>
+                    <a href="{% url 'crear_anuncio' %}" class="btn btn-primary">Crear Anuncio</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-custom">
+                <div class="card-body">
+                    <h5 class="card-title">Crear Usuario</h5>
+                    <p class="card-text">Agrega un nuevo usuario al sistema.</p>
+                    <a href="{% url 'crear_usuario' %}" class="btn btn-primary">Crear Usuario</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de usuarios con estilo personalizado -->
+    <div class="mt-4">
+        <h2>Lista de Usuarios</h2>
+        <table class="table custom-table table-hover shadow-sm">
+            <thead class="custom-table-header">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="custom-table-body">
+                {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.apellido }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.id_rol.nombre }}</td>
+                        <td>
+                            <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-action btn-sm">Editar</a>
+                            <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger-custom btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Solicitudes para Apartamento {{ apartamento.numero }}</h1>
+    
+    <!-- Verificación de QR -->
+    <h2 class="mt-4">Verificar QR de Visita Frecuente</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'verificar_qr' apartamento.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="qr_image" class="form-label" >Subir imagen del QR</label>
+            <input type="file" class="form-control" id="qr_image" name="qr_image" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Verificar QR</button>
+    </form>
+
+    <!-- Contenedores para solicitudes pendientes -->
+    <div class="row mt-4">
+        <!-- Visitas Pendientes -->
+        {% for visita in visitas_pendientes %}
+        <div class="col-12 mb-3">
+            <div class="card border-primary">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-1">Visitante: {{ visita.nombre_visitante }} {{ visita.apellido_visitante }}</h6>
+                        <p class="card-text mb-0">
+                            <strong>Fecha de visita:</strong> {{ visita.fecha_visita|date:"d M Y H:i" }}<br>
+                            <strong>Frecuente:</strong> {{ visita.es_frecuente|yesno:"Sí,No" }}
+                        </p>
+                        {% if visita.es_frecuente and visita.qr_code %}
+                            <p class="mt-2"><strong>Código QR:</strong></p>
+                            <img src="{{ visita.qr_code.url }}" alt="Código QR de la visita frecuente" style="max-width: 100px;">
+                        {% endif %}
+                    </div>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="solicitud_id" value="{{ visita.id }}">
+                        <input type="hidden" name="tipo" value="visita">
+                        <button type="submit" class="btn btn-success btn-sm">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        {% endfor %}
+
+        <!-- Domicilios Pendientes -->
+        {% for domicilio in domicilios_pendientes %}
+        <div class="col-12 mb-3">
+            <div class="card border-success">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="card-text mb-0">
+                            <strong>Proveedor:</strong> {{ domicilio.proveedor.nombre }}<br>
+                            <strong>Producto:</strong> {{ domicilio.nombre_producto }}
+                        </p>
+                    </div>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="solicitud_id" value="{{ domicilio.id }}">
+                        <input type="hidden" name="tipo" value="domicilio">
+                        <button type="submit" class="btn btn-success btn-sm">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        {% endfor %}
+
+        <!-- Paquetes Pendientes -->
+        {% for paquete in paquetes_pendientes %}
+        <div class="col-12 mb-3">
+            <div class="card border-warning">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="card-text mb-0">
+                            <strong>Proveedor:</strong> {{ paquete.proveedor.nombre }}<br>
+                            <strong>Producto:</strong> {{ paquete.nombre_producto }}<br>
+                            <strong>Fecha estimada de llegada:</strong> {{ paquete.fecha_estimacion|date:"d M Y" }}
+                        </p>
+                    </div>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="solicitud_id" value="{{ paquete.id }}">
+                        <input type="hidden" name="tipo" value="paquete">
+                        <button type="submit" class="btn btn-success btn-sm">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

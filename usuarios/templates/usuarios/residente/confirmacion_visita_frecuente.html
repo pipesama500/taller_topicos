@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Visita Frecuente Registrada</h1>
+    <div class="card mt-4" >
+        <div class="card-body text-center">
+            <h5 class="card-title" >Código QR generado para la visita frecuente</h5>
+            <p>Comparte este código con tu visitante para su acceso frecuente.</p>
+            
+            <!-- Mostrar el código QR -->
+            {% if visita.qr_code %}
+                <img src="{{ visita.qr_code.url }}" alt="Código QR" class="img-fluid" style="max-width: 300px;">
+            {% else %}
+                <p>No se ha generado el código QR</p>
+            {% endif %}
+            
+            <!-- Enlace para descargar el código QR -->
+            <div class="mt-3">
+                <a href="{{ visita.qr_code.url }}" class="btn btn-primary" download="visita_qr.png" style="background-color: #149981; border-color: #149981;">
+                    Descargar Código QR
+                </a>
+            </div>
+
+            <div class="mt-3">
+                <a href="{% url 'residente_dashboard' %}" class="btn btn-secondary">
+                    Volver al Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

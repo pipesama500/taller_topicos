@@ -1,0 +1,35 @@
+<!-- usuarios/residente/notificaciones.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2>Notificaciones</h2>
+
+<h3>Visitas</h3>
+{% for visita in visitas_notificadas %}
+    <p>{{ visita.nombre_visitante }} {{ visita.apellido_visitante }} desea ingresar.</p>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" name="solicitud_id" value="{{ visita.id }}">
+        <input type="hidden" name="tipo" value="visita">
+        <button type="submit" name="accion" value="confirmar">Confirmar</button>
+        <button type="submit" name="accion" value="rechazar">Rechazar</button>
+    </form>
+{% endfor %}
+
+<h3>Domicilios</h3>
+{% for domicilio in domicilios_notificados %}
+    <p>Domicilio de {{ domicilio.proveedor }}.</p>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" name="solicitud_id" value="{{ domicilio.id }}">
+        <input type="hidden" name="tipo" value="domicilio">
+        <button type="submit" name="accion" value="confirmar">Confirmar</button>
+        <button type="submit" name="accion" value="rechazar">Rechazar</button>
+    </form>
+{% endfor %}
+
+<h3>Paquetes en portería</h3>
+{% for paquete in paquetes_notificados %}
+    <p>Tienes un paquete de {{ paquete.proveedor }} esperándote en la portería.</p>
+{% endfor %}
+
+{% endblock %}

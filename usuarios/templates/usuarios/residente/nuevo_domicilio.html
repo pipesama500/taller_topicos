@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Registrar Nuevo Domicilio</h1>
+    <div class="card mt-4" >
+        <div class="card-body">
+            <form method="POST" action="{% url 'nuevo_domicilio' %}">
+                {% csrf_token %}
+                
+                <!-- Botón para abrir el modal de selección de proveedores -->
+                <div class="mb-3">
+                    <label for="proveedor" class="form-label" >Seleccionar Proveedor</label>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proveedorModal">
+                        Seleccionar Proveedor
+                    </button>
+                </div>
+
+                <!-- Indicador del proveedor seleccionado -->
+                <div class="mb-3">
+                    <label for="proveedor_seleccionado" class="form-label" >Proveedor Seleccionado:</label>
+                    <input type="text" class="form-control" id="proveedor_seleccionado" name="proveedor_seleccionado" readonly>
+                </div>
+
+                <!-- Campo oculto para el proveedor seleccionado -->
+                <input type="hidden" id="proveedor" name="proveedor">
+
+                <!-- Campo para el proveedor personalizado -->
+                <div class="mb-3 d-none" id="proveedor_personalizado_container">
+                    <label for="proveedor_personalizado" class="form-label" >Nombre del proveedor personalizado</label>
+                    <input type="text" class="form-control" id="proveedor_personalizado" name="proveedor_personalizado" placeholder="Nombre del proveedor personalizado">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="nombre_producto" class="form-label" >Nombre del producto (opcional)</label>
+                    <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" placeholder="Nombre del producto">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="background-color: #149981; border-color: #149981;">Registrar Domicilio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para la selección del proveedor -->
+<div class="modal fade" id="proveedorModal" tabindex="-1" aria-labelledby="proveedorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="proveedorModalLabel" >Seleccionar Proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Seleccione un proveedor de domicilio:</p>
+                <ul class="list-group">
+                    {% for proveedor in proveedores_domicilio %}
+                        <li class="list-group-item" style="cursor: pointer;" onclick="seleccionarProveedor('{{ proveedor.id }}', '{{ proveedor.nombre }}')">{{ proveedor.nombre }}</li>
+                    {% endfor %}
+                    <li class="list-group-item" style="cursor: pointer;" onclick="seleccionarProveedor('Otro', 'Otro')">Otro (Proveedor personalizado)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const proveedorInput = document.getElementById('proveedor');
+    const proveedorSeleccionadoInput = document.getElementById('proveedor_seleccionado');  
+
+    function seleccionarProveedor(proveedorId, proveedorNombre) {
+        // Establecer el valor seleccionado en el campo oculto y el visible
+        proveedorInput.value = proveedorId;
+        proveedorSeleccionadoInput.value = proveedorNombre;
+
+        const proveedorPersonalizadoContainer = document.getElementById('proveedor_personalizado_container');
+        if (proveedorNombre === 'Otro') {
+            proveedorPersonalizadoContainer.classList.remove('d-none');
+        } else {
+            proveedorPersonalizadoContainer.classList.add('d-none');
+        }
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('proveedorModal'));
+        modal.hide();
+    }
+</script>
+
+{% endblock %}

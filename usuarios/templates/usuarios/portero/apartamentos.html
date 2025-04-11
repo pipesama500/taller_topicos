@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Seleccionar Apartamento en Piso {{ piso.numero }}</h1>
+    <div class="row">
+        {% for apartamento in apartamentos %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Apartamento {{ apartamento.numero }}</h5>
+                    <a href="{% url 'portero_detalle_apartamento' apartamento.id %}" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

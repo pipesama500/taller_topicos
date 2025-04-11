@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Encabezado con saludo y clima -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Hola, Residente</h1>
+        <div class="text-secondary">
+        </div>
+    </div>
+
+    <!-- Muro de Anuncios -->
+    {% for anuncio in anuncios %}
+    <div class="card mb-4 " >
+        <div class="card-body">
+            <h5 class="card-title" >{{ anuncio.titulo }}</h5>
+            <p class="card-text text-secondary">Publicado {{ anuncio.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+            <p class="card-text">{{ anuncio.contenido }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p>No hay anuncios disponibles.</p>
+    {% endfor %}
+    
+    <!-- Botón Flotante para Crear Nuevas Visitas, Domicilios y Paquetes -->
+    <div class="fixed-bottom d-flex justify-content-end mb-3 me-3">
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-primary btn-lg rounded-circle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                +
+            </button>
+            <ul class="dropdown-menu bg-primary">
+                <li><a class="dropdown-item text-white d-flex align-items-center" href="{% url 'nueva_visita' %}"><i class="bi bi-person-plus me-2"></i> Nueva Visita</a></li>
+                <li><a class="dropdown-item text-white d-flex align-items-center" href="{% url 'nuevo_domicilio' %}"><i class="bi bi-box-seam me-2"></i> Nuevo Domicilio</a></li>
+                <li><a class="dropdown-item text-white d-flex align-items-center" href="{% url 'nuevo_paquete' %}"><i class="bi bi-envelope-open me-2"></i> Nuevo Paquete</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

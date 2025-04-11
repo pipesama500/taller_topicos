@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Historial del Portero</h1>
+
+    {% for movimiento in movimientos_confirmados %}
+    <div class="card my-2 shadow-sm"  data-bs-toggle="modal" data-bs-target="#modalMovimiento{{ movimiento.id }}">
+        <div class="card-body">
+            <p class="mb-0"><strong>{{ movimiento.tipo|title }} Confirmado</strong> para el apartamento {{ movimiento.apartamento.numero }}</p>
+        </div>
+    </div>
+
+    <!-- Modal de Detalle del Movimiento -->
+    <div class="modal fade" id="modalMovimiento{{ movimiento.id }}" tabindex="-1" aria-labelledby="modalLabel{{ movimiento.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel{{ movimiento.id }}">{{ movimiento.tipo|title }} Confirmado - Apartamento {{ movimiento.apartamento.numero }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if movimiento.tipo == "visita" %}
+                        <p><strong>Visitante:</strong> {{ movimiento.nombre_visitante }} {{ movimiento.apellido_visitante }}</p>
+                        <p><strong>Fecha de visita:</strong> {{ movimiento.fecha_visita|date:"d M Y, H:i" }}</p>
+                    {% elif movimiento.tipo == "domicilio" %}
+                        <p><strong>Proveedor:</strong> {{ movimiento.proveedor.nombre }}</p>
+                        <p><strong>Producto:</strong> {{ movimiento.nombre_producto }}</p>
+                        <p><strong>Fecha de anuncio:</strong> {{ movimiento.fecha_anuncio|date:"d M Y, H:i" }}</p>
+                    {% elif movimiento.tipo == "paquete" %}
+                        <p><strong>Proveedor:</strong> {{ movimiento.proveedor.nombre }}</p>
+                        <p><strong>Producto:</strong> {{ movimiento.nombre_producto }}</p>
+                        <p><strong>Fecha de anuncio:</strong> {{ movimiento.fecha_anuncio|date:"d M Y, H:i" }}</p>
+                        <p><strong>Fecha estimada de llegada:</strong> {{ movimiento.fecha_estimacion|date:"d M Y" }}</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center mt-4">No hay movimientos confirmados en el historial.</p>
+    {% endfor %}
+</div>
+{% endblock %}

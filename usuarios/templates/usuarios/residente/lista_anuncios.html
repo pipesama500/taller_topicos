@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Anuncios Recientes</h2>
+{% for anuncio in anuncios %}
+    <div class="card mb-4 border-primary">
+        <div class="card-body">
+            <h5 class="card-title text-primary">{{ anuncio.titulo }}</h5>
+            <p class="card-text text-secondary">Publicado {{ anuncio.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+            <p class="card-text">{{ anuncio.contenido }}</p>
+        </div>
+    </div>
+{% empty %}
+    <p>No hay anuncios disponibles.</p>
+{% endfor %}
+{% endblock %}

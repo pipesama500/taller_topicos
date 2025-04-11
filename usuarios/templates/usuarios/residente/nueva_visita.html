@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Registrar Nueva Visita</h1>
+    <div class="card mt-4" >
+        <div class="card-body">
+            <form method="POST" action="{% url 'nueva_visita' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre_visitante" class="form-label" >Nombre del visitante</label>
+                    <input type="text" class="form-control" id="nombre_visitante" name="nombre_visitante" placeholder="Nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido_visitante" class="form-label" >Apellido del visitante</label>
+                    <input type="text" class="form-control" id="apellido_visitante" name="apellido_visitante" placeholder="Apellido" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha_visita" class="form-label" >Fecha de la visita</label>
+                    <input type="datetime-local" class="form-control" id="fecha_visita" name="fecha_visita" required>
+                </div>
+                <div class="mb-3">
+                    <label for="es_frecuente" class="form-label" >¿Es una visita frecuente?</label>
+                    <select class="form-select" id="es_frecuente" name="es_frecuente">
+                        <option value="false" selected>No</option>
+                        <option value="true">Sí</option>
+                    </select>
+                </div>
+                <div class="mb-3 d-none" id="fecha_expiracion_container">
+                    <label for="fecha_expiracion_frecuente" class="form-label" >Fecha de expiración del pase frecuente</label>
+                    <input type="datetime-local" class="form-control" id="fecha_expiracion_frecuente" name="fecha_expiracion_frecuente">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="background-color: #149981; border-color: #149981;">Registrar Visita</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const esFrecuenteSelect = document.getElementById('es_frecuente');
+    const fechaExpiracionContainer = document.getElementById('fecha_expiracion_container');
+    
+    esFrecuenteSelect.addEventListener('change', function() {
+        if (esFrecuenteSelect.value === 'true') {
+            fechaExpiracionContainer.classList.remove('d-none');
+        } else {
+            fechaExpiracionContainer.classList.add('d-none');
+        }
+    });
+</script>
+{% endblock %}

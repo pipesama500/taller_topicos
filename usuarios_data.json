@@ -1,0 +1,44 @@
+[
+  {
+    "model": "usuarios.usuario",
+    "pk": 1,
+    "fields": {
+      "nombre": "Anderson",
+      "apellido": "Jimenez",
+      "email": "admin@gmail.com",
+      "password": "123",  
+      "id_rol": 1,
+      "id_apartamento": null,
+      "is_active": true,
+      "is_staff": true
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 2,
+    "fields": {
+      "nombre": "Juan",
+      "apellido": "Jimenez",
+      "email": "residente@gmail.com",
+      "password": "123",
+      "id_rol": 2, 
+      "id_apartamento": 1, 
+      "is_active": true,
+      "is_staff": false
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 3,
+    "fields": {
+      "nombre": "Carlos",
+      "apellido": "Jimenez",
+      "email": "portero@gmail.com",
+      "password": "123", 
+      "id_rol": 3,
+      "id_apartamento": null,
+      "is_active": true,
+      "is_staff": false
+    }
+  }
+]

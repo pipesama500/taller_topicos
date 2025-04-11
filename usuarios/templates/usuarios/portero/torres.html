@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Encabezado con saludo -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Hola, Portero</h1>
+    </div>
+
+    <!-- Listado de Torres -->
+    <h3 class="text-center" >Seleccionar Torre</h3>
+    <div class="row">
+        {% for torre in torres %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ torre.nombre }}</h5>
+                    <a href="{% url 'portero_pisos' torre.id %}" class="btn btn-primary">Ver Pisos</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Botón Flotante para Crear Nuevas Visitas, Domicilios y Paquetes Inesperados -->
+    <div class="fixed-bottom d-flex justify-content-end mb-3 me-3">
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-primary btn-lg rounded-circle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                +
+            </button>
+            <ul class="dropdown-menu bg-warning">
+                <li><a class="dropdown-item text-dark d-flex align-items-center" href="{% url 'crear_visita_inesperada' %}"><i class="bi bi-person-plus me-2"></i> Nueva Visita Inesperada</a></li>
+                <li><a class="dropdown-item text-dark d-flex align-items-center" href="{% url 'crear_domicilio_inesperado' %}"><i class="bi bi-box-seam me-2"></i> Nuevo Domicilio Inesperado</a></li>
+                <li><a class="dropdown-item text-dark d-flex align-items-center" href="{% url 'crear_paquete_inesperado' %}"><i class="bi bi-envelope-open me-2"></i> Nuevo Paquete Inesperado</a></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

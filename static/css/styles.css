@@ -1,0 +1,235 @@
+/* styles.css */
+body {
+    background-color: #bbd9dd; /* Fondo general */
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #105A63; /* Color principal */
+}
+
+/* Aumentar altura del navbar */
+.navbar {
+    height: 120px;
+    background-color: #105A63 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+/* Estilo para el logo */
+.navbar-brand img {
+    height: 200px;
+    width: auto;
+}
+
+/* Estilo para los iconos de los botones */
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    color: #ffffff !important;
+    font-size: 18px;
+}
+
+.navbar-nav .nav-link img {
+    height: 40px;
+    width: auto;
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: #105A63 !important;
+    border-color: #105A63 !important;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #2F3E41;
+    border-color: #2F3E41;
+}
+
+.btn-group.dropup .btn {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    line-height: 1;
+    border-radius: 50%;
+}
+
+.btn-group.dropup .dropdown-menu {
+    border-radius: 12px !important;
+    background-color: #4B8C91 !important;
+    padding: 0;
+}
+
+.btn-group.dropup .dropdown-item {
+    font-size: 18px;
+    padding: 12px 20px;
+    color: #ffffff !important;
+}
+
+.btn-group.dropup .dropdown-item:hover, .btn-group.dropup .dropdown-item:focus {
+    background-color: #2F3E41 !important;
+    color: #ffffff !important;
+}
+
+.btn-lg {
+    font-size: 20px;
+    padding: 20px;
+}
+
+.btn-secondary {
+    background-color: #4B8C91;
+    border-color: #4B8C91;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: #2F3E41;
+    border-color: #2F3E41;
+    color: #ffffff;
+}
+
+.dropdown-menu {
+    background-color: #105A63;
+    border: 1px solid #105A63;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #ffffff;
+}
+
+.dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus {
+    background-color: #105A63;
+    color: #ffffff;
+}
+
+.dropdown-toggle img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.dropdown-toggle {
+    padding: 20px 25px;
+    font-size: 20px;
+    border-color: #105A63;
+    background-color: #105A63;
+}
+
+.login-background {
+    background-color: #bbd9dd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Estilos para el contenedor del formulario de login */
+.card {
+    border-color: #105A63;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e3f4f6;
+}
+
+/* Estilos para los campos de formulario */
+.form-label {
+    color: #105A63;
+    font-weight: bold;
+}
+
+.form-control {
+    border-color: #105A63;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    border-color: #4B8C91;
+    box-shadow: 0 0 5px rgba(75, 140, 145, 0.5);
+}
+
+/* Estilo para los campos de selección */
+.form-select {
+    border-color: #105A63;
+    background-color: #ffffff;
+    color: #105A63;
+    border-radius: 8px;
+}
+
+.form-select:focus {
+    border-color: #4B8C91;
+    box-shadow: 0 0 5px rgba(75, 140, 145, 0.5);
+}
+
+/* Botón de envío */
+.btn-primary {
+    background-color: #105A63;
+    border-color: #105A63;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #2F3E41;
+    border-color: #2F3E41;
+}
+
+/* Estilo para el indicador de notificación */
+.notification-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #4B8C91;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Estilos personalizados para la tabla */
+.custom-table {
+    background-color: #e3f4f6;
+    border: 2px solid #105A63;
+    border-radius: 12px;
+}
+
+.custom-table-header {
+    background-color: #105A63;
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+.custom-table-body tr {
+    color: #105A63;
+    border-bottom: 1px solid #4B8C91;
+}
+
+.custom-table-body tr:hover {
+    background-color: #bbd9dd;
+}
+
+/* Bordes personalizados para los contenedores de acciones */
+.border-custom {
+    border-color: #105A63 !important;
+    border-radius: 12px !important;
+}
+
+/* Estilos para los botones de acción sin tonos azules */
+.btn-action {
+    background-color: #4B8C91;
+    border-color: #4B8C91;
+    color: #ffffff;
+}
+
+.btn-action:hover, .btn-action:focus {
+    background-color: #2F3E41;
+    border-color: #2F3E41;
+}
+
+.btn-danger-custom {
+    background-color: #A11D1D;
+    border-color: #A11D1D;
+    color: #ffffff;
+}
+
+.btn-danger-custom:hover, .btn-danger-custom:focus {
+    background-color: #730B0B;
+    border-color: #730B0B;
+}

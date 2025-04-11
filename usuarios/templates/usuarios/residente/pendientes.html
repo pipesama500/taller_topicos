@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center" >Tus Pendientes</h1>
+
+    {% for pendiente in pendientes %}
+    <div class="card my-2 shadow-sm"  data-bs-toggle="modal" data-bs-target="#modalPendiente{{ pendiente.id }}">
+        <div class="card-body">
+            <p class="mb-0">
+                {% if pendiente.tipo == "paquete" %}
+                    <strong>Paquete Pendiente</strong>
+                {% elif pendiente.tipo == "domicilio" %}
+                    <strong>Domicilio Pendiente</strong>
+                {% elif pendiente.tipo == "visita" %}
+                    <strong>Visita Inesperada</strong>
+                {% endif %}
+                - Apartamento {{ pendiente.apartamento }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal de Detalle del Pendiente -->
+    <div class="modal fade" id="modalPendiente{{ pendiente.id }}" tabindex="-1" aria-labelledby="modalLabel{{ pendiente.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel{{ pendiente.id }}">
+                        {% if pendiente.tipo == "paquete" %}
+                            Paquete Pendiente
+                        {% elif pendiente.tipo == "domicilio" %}
+                            Domicilio Pendiente
+                        {% elif pendiente.tipo == "visita" %}
+                            Visita Inesperada
+                        {% endif %}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if pendiente.tipo == "paquete" %}
+                        <p><strong>Proveedor:</strong> {{ pendiente.proveedor.nombre }}</p>
+                        <p><strong>Producto:</strong> {{ pendiente.nombre_producto }}</p>
+                        <p><strong>Fecha de anuncio:</strong> {{ pendiente.fecha_anuncio|date:"d M Y, H:i" }}</p>
+                        <p><strong>Fecha estimada de llegada:</strong> {{ pendiente.fecha_estimacion|date:"d M Y" }}</p>
+                    {% elif pendiente.tipo == "domicilio" %}
+                        <p><strong>Proveedor:</strong> {{ pendiente.proveedor.nombre }}</p>
+                        <p><strong>Producto:</strong> {{ pendiente.nombre_producto }}</p>
+                        <p><strong>Fecha de anuncio:</strong> {{ pendiente.fecha_anuncio|date:"d M Y, H:i" }}</p>
+                    {% elif pendiente.tipo == "visita" %}
+                        <p><strong>Visitante:</strong> {{ pendiente.nombre_visitante }} {{ pendiente.apellido_visitante }}</p>
+                        <p><strong>Fecha de visita:</strong> {{ pendiente.fecha_visita|date:"d M Y, H:i" }}</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="{% url 'confirmar_pendiente' pendiente.id pendiente.tipo %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Confirmar</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center mt-4">No tienes pendientes.</p>
+    {% endfor %}
+</div>
+{% endblock %}
