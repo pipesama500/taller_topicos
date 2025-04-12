@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-yykwk0&(1=zdqd-j0g$6^6hj1p4=%u&luxz#qbovv$7ch05p31
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.55.214.226']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 
 
 # Application definition
@@ -81,12 +82,8 @@ WSGI_APPLICATION = 'UnitEasy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'uniteasy',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # o la dirección IP del servidor MySQL si no está en local
-        'PORT': '3306',        # puerto por defecto de MySQL
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

@@ -7,6 +7,7 @@ from pyzbar.pyzbar import decode
 from io import BytesIO
 from django.core.files import File
 
+
 class Unidad(models.Model):
     nombre = models.CharField(max_length=50)
 
@@ -51,6 +52,7 @@ class UsuarioManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('id_rol', Roles.objects.get(nombre='Administrador'))
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         
