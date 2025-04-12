@@ -7,6 +7,7 @@ from pyzbar.pyzbar import decode
 from io import BytesIO
 from django.core.files import File
 from .interfaces import RoleManager
+from .qr_strategy import DefaultQRCodeStrategy
 
 
 class RoleManagerImpl(RoleManager):
@@ -130,15 +131,17 @@ class Visita(models.Model):
     mensaje_qr = models.CharField(max_length=255, unique=True, blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        # Si la visita es frecuente y aún no se ha generado un mensaje QR
         if self.es_frecuente and not self.mensaje_qr:
+            # Generar el mensaje QR de forma similar a como se hacía antes
             self.mensaje_qr = f"visita-{self.apartamento.id}-{timezone.now().strftime('%Y%m%d%H%M%S')}"
-            
-            qr_image = qrcode.make(self.mensaje_qr)
-            buffer = BytesIO()
-            qr_image.save(buffer, format='PNG')
-            file_name = f'{self.nombre_visitante}_{self.apellido_visitante}_qr.png'
-            self.qr_code.save(file_name, File(buffer), save=False)
-            
+            # Instanciar la estrategia para generar el código QR
+            qr_strategy = DefaultQRCodeStrategy()
+            # Generar el archivo del QR
+            qr_file = qr_strategy.generate(self.mensaje_qr)
+            # Guardar la imagen en el ImageField sin persistirla aún en la base de datos
+            self.qr_code.save(qr_file.name, qr_file, save=False)
+        # Llamar al método save() original para guardar la instancia
         super().save(*args, **kwargs)
 
 class Domicilio(models.Model):

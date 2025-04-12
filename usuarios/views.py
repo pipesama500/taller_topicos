@@ -8,6 +8,10 @@ import qrcode
 from PIL import Image
 from pyzbar.pyzbar import decode
 from django.db import models
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .models import Usuario
+from .forms import UsuarioForm
 
 def user_login(request):
     if request.method == 'POST':
@@ -69,7 +73,7 @@ def residente_dashboard(request):
         'tiene_pendientes': tiene_pendientes
     })
 
-
+'''
 def lista_usuarios(request):
     usuarios = Usuario.objects.all()
     return render(request, 'usuarios/administrador/dashboard.html', {'usuarios': usuarios})  # Actualizado a la nueva estructura
@@ -105,7 +109,43 @@ def crear_usuario(request):
         form = UsuarioForm()  # Asegúrate de inicializar el formulario
 
     return render(request, 'usuarios/administrador/crear_usuario.html', {'form': form})
+'''
 
+# Listar Usuarios (Read)
+class UsuarioListView(ListView):
+    model = Usuario
+    template_name = 'usuarios/administrador/dashboard.html'  # Mismo template que usabas para listar usuarios
+    context_object_name = 'usuarios'
+
+
+# Crear un Usuario (Create)
+class UsuarioCreateView(CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/administrador/crear_usuario.html'
+    success_url = reverse_lazy('administrador_dashboard')
+
+
+# Editar un Usuario existente (Update)
+class UsuarioUpdateView(UpdateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/administrador/editar_usuario.html'
+    success_url = reverse_lazy('administrador_dashboard')
+
+    # Si tus templates esperan la variable 'usuario', la incluimos en el contexto
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.object
+        return context
+
+
+# Eliminar un Usuario (Delete)
+class UsuarioDeleteView(DeleteView):
+    model = Usuario
+    template_name = 'usuarios/administrador/eliminar_usuario.html'
+    success_url = reverse_lazy('administrador_dashboard')
+    
 def crear_anuncio(request):
     if request.method == 'POST':
         form = AnuncioForm(request.POST)
