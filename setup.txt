@@ -1,0 +1,25 @@
+# Instrucciones para ejecutar el proyecto
+
+1. Clone el repositorio corriendo el siguiente comando en la ubicacion que desee descargar el proyecto 
+https://github.com/pipesama500/taller_topicos.git
+
+2. Instale las dependencias:
+```
+cd taller_topicos
+pip install -r requirements.txt
+```
+
+3. Aplique las migraciones:
+```
+python manage.py migrate
+```
+
+4. Cree un superusuario:
+```
+python manage.py createsuperuser
+```
+
+5. En la terminal escriba el siguiente comando para ejecutar el programa y dirajase a http://127.0.0.1:8000
+```
+python manage.py runserver
+```
