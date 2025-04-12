@@ -6,7 +6,20 @@ from PIL import Image
 from pyzbar.pyzbar import decode
 from io import BytesIO
 from django.core.files import File
+from .interfaces import RoleManager
 
+
+class RoleManagerImpl(RoleManager):
+    def create_role(self, nombre: str):
+        return Roles.objects.create(nombre=nombre)
+
+    def get_role_by_name(self, nombre: str):
+        return Roles.objects.filter(nombre=nombre).first()
+
+    def assign_role_to_user(self, user_id: int, role_id: int):
+        user = Usuario.objects.get(id=user_id)  # Asumiendo que tienes una relación ManyToMany
+        role = Roles.objects.get(id=role_id)
+        user.roles.add(role)  # Lógica para asignar un rol
 
 class Unidad(models.Model):
     nombre = models.CharField(max_length=50)
@@ -36,10 +49,7 @@ class Apartamento(models.Model):
         return f"Apartamento {self.numero} - {self.id_piso}"
 
 class Roles(models.Model):
-    nombre = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.nombre
+    nombre = models.CharField(max_length=255)
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
